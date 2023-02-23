@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>MetaMask Registration</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      h1 {
+        font-size: 48px;
+        margin-bottom: 32px;
+      }
+
+      button {
+        padding: 16px 32px;
+        font-size: 24px;
+        border-radius: 16px;
+        background-color: #008CBA;
+        color: #FFFFFF;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #005F6B;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>MetaMask Registration</h1>
+      <p>Please install MetaMask to continue.</p>
+      <button id="connect-metamask-button">Connect with MetaMask</button>
+      <p id="loading-message" class="hidden">Спасибо за регистрацию, подождите минуту.</p>
+    </div>
+
+    <!-- Include the MetaMask Web3 JavaScript library -->
+    <script src="https://cdn.jsdelivr.net/npm/@metamask/web3-api@latest/dist/web3-api.min.js"></script>
+    <script>
+      const connectMetamaskButton = document.getElementById("connect-metamask-button");
+      const loadingMessage = document.getElementById("loading-message");
+
+      // Check if MetaMask is installed and enabled
+      if (typeof window.ethereum === "undefined") {
+        connectMetamaskButton.style.display = "none";
+      } else {
+        // Display the connect button
+        connectMetamaskButton.style.display = "inline-block";
+
+        // Handle the connect button click event
+        connectMetamaskButton.addEventListener("click", async function() {
+          // Request access to the user's MetaMask account
+          await ethereum.enable();
+
+          // Get the user's Ethereum address from MetaMask
+          const address = (await window.web3.eth.getAccounts())[0];
+
+          // Register the user's Ethereum address with the website
+          // This step would typically involve sending a transaction to a smart contract on the Ethereum blockchain
+          // For demonstration purposes, let's just display the thank you message
+          connectMetamaskButton.style.display = "none";
+          loadingMessage.classList.remove("hidden");
+        });
+      }
+    </script>
+  </body>
+</html>
